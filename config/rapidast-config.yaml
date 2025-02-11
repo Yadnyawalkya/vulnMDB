@@ -1,0 +1,29 @@
+config:
+  configVersion: 6
+
+application:
+  shortName: "vulnMDB 1.0"
+  url: "http://127.0.0.1:5000"
+
+general:
+  container:
+    type: "none"
+
+scanners:
+  zap:
+    apiScan:
+      apis:
+        apiUrl: "http://127.0.0.1:5000/openapi.json"
+
+    passiveScan:
+      disabledRules: "2,10015,10027,10096,10024,10098,10023"
+
+    activeScan:
+      policy: "API-scan-minimal"
+
+    report:
+      format: ["json", "html"]
+
+    miscOptions:
+      updateAddons: false
+
