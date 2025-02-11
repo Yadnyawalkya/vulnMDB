@@ -1,0 +1,217 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "VulnMDB: Vulnerable Movie Database Web App",
+    "description": "An intentionally vulnerable Movie Database WebApp for DAST",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:5000",
+      "description": "local server"
+    }
+  ],
+  "paths": {
+    "/movies": {
+      "get": {
+        "summary": "Fetches list of all movies",
+        "description": "Fetches list of all movies",
+        "responses": {
+          "200": {
+            "description": "Fetches list of all movies",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Movie"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/add_movie": {
+      "post": {
+        "summary": "Add a new movie",
+        "description": "Add a new movie",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/MovieInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "302": {
+            "description": "Redirect to movie list after successful addition"
+          }
+        }
+      }
+    },
+    "/search_movie": {
+      "get": {
+        "summary": "Search for a movie",
+        "description": "Search for a movie",
+        "parameters": [
+          {
+            "name": "search",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Search results",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Movie"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/reviews/{movie_id}": {
+      "get": {
+        "summary": "Retrieve reviews for a movie",
+        "parameters": [
+          {
+            "name": "movie_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A list of reviews",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Review"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Add a review to a movie",
+        "description": "Add a review to a movie",
+        "parameters": [
+          {
+            "name": "movie_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "$ref": "#/components/schemas/ReviewInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "302": {
+            "description": "Redirect to movie reviews after submission"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Movie": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "name": {
+            "type": "string"
+          },
+          "director": {
+            "type": "string"
+          },
+          "cast": {
+            "type": "string"
+          },
+          "rating": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      },
+      "MovieInput": {
+        "type": "object",
+        "properties": {
+          "movie_name": {
+            "type": "string"
+          },
+          "director": {
+            "type": "string"
+          },
+          "cast": {
+            "type": "string"
+          },
+          "rating": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      },
+      "Review": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "movie_id": {
+            "type": "integer"
+          },
+          "review": {
+            "type": "string"
+          }
+        }
+      },
+      "ReviewInput": {
+        "type": "object",
+        "properties": {
+          "review": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

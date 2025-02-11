@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movies List</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Search Movies</h1>
+        <form action="/search_movie" method="GET">
+            <input type="text" name="search" placeholder="Search Movie">
+            <input type="submit" value="Search">
+        </form>
+        <br/>
+        <h1>Movies List</h1>
+        <ul class="movies-list">
+            {% for movie in movies %}
+                <li>
+                    <strong>{{ movie[1] }}</strong><br>
+                    <i>Director: {{ movie[2] }}</i><br>
+                    <i>Cast: {{ movie[3] }}</i><br>
+                    <i>Rating: {{ movie[4] }}</i><br>
+                    <p>Description: {{ movie[5]|safe }}</p>
+                    <a href="/reviews/{{ movie[0] }}">View Reviews</a>
+                </li>
+            {% endfor %}
+        </ul>
+        <br>
+        <button onclick="window.location.href='/add_movie'">Add New Movie</button>
+    </div>
+</body>
+</html>
